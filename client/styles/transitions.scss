@@ -1,0 +1,297 @@
+// 颜色变量
+$purple-500: #8b5cf6;
+$purple-600: #7c3aed;
+$purple-400: #a78bfa;
+
+// 动画变量
+$transition-duration: 300ms;
+$transition-timing: ease-out;
+$hover-scale: 1.05;
+
+// Mixins
+@mixin transition-base {
+  transition: all $transition-duration $transition-timing;
+}
+
+@mixin hover-scale {
+  &:hover {
+    transform: scale($hover-scale);
+  }
+}
+
+@mixin hover-lift {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@mixin fade-in {
+  animation: fadeIn $transition-duration $transition-timing;
+}
+
+@mixin slide-in($direction: 'left') {
+  $start: if($direction == 'left', -100%, 100%);
+  animation: slideIn-#{$direction} $transition-duration $transition-timing;
+
+  @keyframes slideIn-#{$direction} {
+    from {
+      opacity: 0;
+      transform: translateX($start);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+// 基础动画
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+// 通用动画类
+.animate {
+  &-fade {
+    @include fade-in;
+  }
+
+  &-slide-up {
+    animation: slideUp $transition-duration $transition-timing;
+  }
+
+  &-pulse {
+    animation: pulse 2s infinite;
+  }
+}
+
+// 交互动画
+.interactive {
+  &-hover {
+    @include transition-base;
+    
+    &-scale {
+      @include hover-scale;
+    }
+    
+    &-lift {
+      @include hover-lift;
+    }
+  }
+
+  &-button {
+    @include transition-base;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &-card {
+    @include transition-base;
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+// 页面过渡
+.page-transition {
+  &-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+    
+    &-active {
+      opacity: 1;
+      transform: translateX(0);
+      transition: all $transition-duration $transition-timing;
+    }
+  }
+
+  &-exit {
+    opacity: 1;
+    transform: translateX(0);
+    
+    &-active {
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all $transition-duration $transition-timing;
+    }
+  }
+}
+
+// 导航栏动画
+.navbar {
+  @include transition-base;
+  transform: translateY(0);
+  
+  &.hidden {
+    transform: translateY(-100%);
+  }
+  
+  &:hover {
+    transform: translateY(0);
+  }
+
+  .nav-link {
+    @include transition-base;
+    
+    &:hover {
+      color: theme('colors.purple.400');
+    }
+  }
+}
+
+// 模态框动画
+.modal {
+  &-enter {
+    opacity: 0;
+    transform: scale(0.95);
+    
+    &-active {
+      opacity: 1;
+      transform: scale(1);
+      transition: all $transition-duration $transition-timing;
+    }
+  }
+
+  &-exit {
+    opacity: 1;
+    transform: scale(1);
+    
+    &-active {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all $transition-duration $transition-timing;
+    }
+  }
+}
+
+// 加载动画
+.loading {
+  &-spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  &-pulse {
+    animation: pulse 2s infinite;
+  }
+
+  &-skeleton {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.1)
+    );
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+// 表单元素动画
+.form-element {
+  @include transition-base;
+  
+  &:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 列表项动画
+.list-item {
+  @include transition-base;
+  
+  &:hover {
+    transform: translateX(8px);
+    background-color: rgba($purple-500, 0.1);
+  }
+}
+
+// 卡片动画
+.card {
+  @include transition-base;
+  
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// 按钮动画
+.button {
+  @include transition-base;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &.primary {
+    &:hover {
+      background-color: $purple-600;
+    }
+  }
+}
+
+// 图标动画
+.icon {
+  @include transition-base;
+  
+  &:hover {
+    transform: scale(1.2) rotate(10deg);
+  }
+}
+
+// 工具提示动画
+.tooltip {
+  @include transition-base;
+  opacity: 0;
+  transform: translateY(10px);
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

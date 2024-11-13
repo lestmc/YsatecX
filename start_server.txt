@@ -1,0 +1,33 @@
+// 启动服务器的步骤
+
+1. 首先启动前端服务：
+cd client
+npm run dev
+
+2. 然后在新的终端窗口启动后端服务：
+cd server
+node index.js
+
+// 或者使用 nodemon 实现热重载（推荐）：
+cd server
+npx nodemon index.js
+
+注意事项：
+1. 确保已经安装了所有依赖：
+   - 前端依赖安装：在 client 目录下运行 npm install
+   - 后端依赖安装：在 server 目录下运行 npm install
+
+2. 确保 server/.env 文件已正确配置：
+   JWT_SECRET=your_jwt_secret_key_here
+   EMAIL_USER=your_gmail_address@gmail.com
+   EMAIL_PASS=your_gmail_app_password
+
+3. 默认端口：
+   - 前端服务运行在 http://localhost:3000
+   - 后端服务运行在 http://localhost:3001
+
+4. 如果遇到端口占用，可以修改对应的端口号：
+   - 前端：在 package.json 中修改 dev 脚本
+   - 后端：在 server/index.js 中修改 port 变量
+
+5. 数据库文件将自动在 server 目录下创建为 database.sqlite 

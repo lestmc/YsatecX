@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@ysatecx.com",
+      "password": "$2a$10$6tP/gUQrwgVHxkwgGJHv6.ycYmNLLwBmStEk2IqJ0GqbJBiyTm..2",
+      "role": "admin",
+      "avatar": null,
+      "createdAt": "2024-03-20T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "username": "test",
+      "email": "test@ysatecx.com",
+      "password": "$2a$10$6tP/gUQrwgVHxkwgGJHv6.ycYmNLLwBmStEk2IqJ0GqbJBiyTm..2",
+      "role": "user",
+      "avatar": null,
+      "createdAt": "2024-03-20T00:00:00.000Z"
+    }
+  ]
+} 
