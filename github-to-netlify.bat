@@ -1,62 +1,76 @@
 @echo off
-echo === ä»GitHubéƒ¨ç½²åˆ°Netlify ===
+echo === ´ÓGitHub²¿Êğµ½Netlify ===
 
-:: æ£€æŸ¥GitçŠ¶æ€
-echo æ£€æŸ¥GitçŠ¶æ€...
+:: ¼ì²éGit×´Ì¬
+echo ¼ì²éGit×´Ì¬...
 git status
 if %errorlevel% neq 0 (
-    echo [é”™è¯¯] ä¸æ˜¯Gitä»“åº“æˆ–Gitæœªå®‰è£…!
+    echo [´íÎó] ²»ÊÇGit²Ö¿â»òGitÎ´°²×°!
     pause
     exit /b 1
 )
 
-:: ç¡®ä¿æ‰€æœ‰æ›´æ”¹éƒ½å·²æäº¤
-set /p continue="ç¡®ä¿æ‰€æœ‰æ›´æ”¹å·²æäº¤ã€‚æ˜¯å¦ç»§ç»­? (Y/N): "
+:: È·±£ËùÓĞ¸ü¸Ä¶¼ÒÑÌá½»
+set /p continue="È·±£ËùÓĞ¸ü¸ÄÒÑÌá½»¡£ÊÇ·ñ¼ÌĞø? (Y/N): "
 if /i not "%continue%"=="Y" exit /b
 
-:: åˆ›å»º netlify.toml
-echo åˆ›å»º netlify.toml é…ç½®æ–‡ä»¶...
+:: ´´½¨ netlify.toml
+echo ´´½¨ netlify.toml ÅäÖÃÎÄ¼ş...
 (
 echo [build]
 echo   base = "client"
 echo   command = "npm run build"
 echo   publish = "out"
-echo   ignore = "git diff --quiet HEAD^ HEAD ./client/"
 echo.
 echo [build.environment]
-echo   NEXT_PUBLIC_API_URL = "ä½ çš„åç«¯APIåœ°å€"
-echo.
-echo [[plugins]]
-echo   package = "@netlify/plugin-nextjs"
+echo   NEXT_PUBLIC_API_URL = "ÄãµÄºó¶ËAPIµØÖ·"
 ) > netlify.toml
 
-:: å®‰è£… Netlify CLI
+:: ½øÈë¿Í»§¶ËÄ¿Â¼
 cd client
-echo å®‰è£… Netlify CLI...
-call npm install netlify-cli --save-dev
 
-:: ç™»å½• Netlify
-echo ç™»å½• Netlify...
-call npx netlify login
+:: ÇåÀí¾ÉµÄ°²×°
+echo ÇåÀí¾ÉµÄ°²×°...
+rd /s /q node_modules\.bin 2>nul
+rd /s /q node_modules\netlify-cli 2>nul
 
-:: åˆå§‹åŒ– Netlify é…ç½®
-echo åˆå§‹åŒ– Netlify é…ç½®...
-call npx netlify init
+:: È«¾Ö°²×° Netlify CLI
+echo È«¾Ö°²×° Netlify CLI...
+call npm install -g netlify-cli
 
-:: è®¾ç½®è‡ªåŠ¨éƒ¨ç½²
-echo è®¾ç½®è‡ªåŠ¨éƒ¨ç½²...
-call npx netlify build --context production
-call npx netlify deploy --prod
+:: µÈ´ı¼¸ÃëÈ·±£°²×°Íê³É
+timeout /t 5
+
+:: ¼ì²é Netlify CLI ÊÇ·ñ°²×°³É¹¦
+netlify --version
+if %errorlevel% neq 0 (
+    echo [´íÎó] Netlify CLI °²×°Ê§°Ü!
+    cd ..
+    pause
+    exit /b 1
+)
+
+:: µÇÂ¼ Netlify£¨Ê¹ÓÃä¯ÀÀÆ÷£©
+echo ÇëÔÚä¯ÀÀÆ÷ÖĞµÇÂ¼ Netlify...
+netlify login
+
+:: Á´½Óµ½ Netlify
+echo Á´½ÓÏîÄ¿µ½ Netlify...
+netlify link
+
+:: ²¿Êğ
+echo ²¿Êğµ½ Netlify...
+netlify deploy --prod --dir=out
 
 cd ..
 
-:: æäº¤ netlify.toml
+:: Ìá½» netlify.toml
 git add netlify.toml
 git commit -m "Add Netlify configuration"
 git push
 
-echo === éƒ¨ç½²å®Œæˆ! ===
-echo 1. è®¿é—® Netlify ä»ªè¡¨æ¿æ£€æŸ¥éƒ¨ç½²çŠ¶æ€
-echo 2. æ¯æ¬¡æ¨é€åˆ° GitHub å°†è‡ªåŠ¨è§¦å‘éƒ¨ç½²
-echo 3. å¯ä»¥åœ¨ Netlify ä»ªè¡¨æ¿è®¾ç½®è‡ªå®šä¹‰åŸŸå
+echo === ²¿ÊğÍê³É! ===
+echo 1. ·ÃÎÊ Netlify ÒÇ±í°å¼ì²é²¿Êğ×´Ì¬
+echo 2. Ã¿´ÎÍÆËÍµ½ GitHub ½«×Ô¶¯´¥·¢²¿Êğ
+echo 3. ¿ÉÒÔÔÚ Netlify ÒÇ±í°åÉèÖÃ×Ô¶¨ÒåÓòÃû
 pause 
