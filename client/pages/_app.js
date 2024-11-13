@@ -1,6 +1,4 @@
 import '../styles/globals.scss';
-import '../styles/creator.scss';
-import '../styles/transitions.scss';
 import { AuthProvider } from '../contexts/AuthContext';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';

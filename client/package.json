@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "deploy": "netlify deploy --prod"
   },
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.19",
     "autoprefixer": "^10.4.20",
-    "netlify-cli": "^12.0.0",
+    "netlify-cli": "^12.14.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14"
   }

@@ -1,0 +1,129 @@
+// 导入 Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// 暗色主题变量
+$dark-bg-primary: #0f172a;    
+$dark-bg-secondary: #1e293b;  
+$dark-text-primary: #f8fafc;  
+$dark-text-secondary: #94a3b8; 
+$dark-border: #334155;        
+$dark-hover: #2d3748;        
+
+// 亮色主题变量
+$light-bg-primary: #ffffff;
+$light-bg-secondary: #f1f5f9;
+$light-text-primary: #0f172a;
+$light-text-secondary: #475569;
+$light-border: #e2e8f0;
+$light-hover: #f8fafc;
+
+// 品牌色
+$brand-primary: #8b5cf6;     
+$brand-secondary: #7c3aed;   
+$brand-accent: #6d28d9;      
+
+// 应用主题
+.dark {
+  --bg-primary: #{$dark-bg-primary};
+  --bg-secondary: #{$dark-bg-secondary};
+  --text-primary: #{$dark-text-primary};
+  --text-secondary: #{$dark-text-secondary};
+  --border-color: #{$dark-border};
+  --hover-bg: #{$dark-hover};
+}
+
+:root {
+  --bg-primary: #{$light-bg-primary};
+  --bg-secondary: #{$light-bg-secondary};
+  --text-primary: #{$light-text-primary};
+  --text-secondary: #{$light-text-secondary};
+  --border-color: #{$light-border};
+  --hover-bg: #{$light-hover};
+  --brand-primary: #{$brand-primary};
+  --brand-secondary: #{$brand-secondary};
+  --brand-accent: #{$brand-accent};
+}
+
+// 基础样式
+body {
+  @apply bg-gray-50 dark:bg-gray-900;
+  @apply text-gray-900 dark:text-white;
+  @apply transition-colors duration-300;
+}
+
+// 创作者中心样式
+.creator-center {
+  @apply pt-20;
+  
+  &__header {
+    @apply mb-8;
+
+    h1 {
+      @apply text-3xl font-bold;
+    }
+  }
+
+  &__stats {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6 mb-8;
+  }
+}
+
+// 动画
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 通用动画类
+.animate {
+  &-fade {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  &-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+}
+
+// 交互组件样式
+.btn {
+  @apply px-4 py-2 rounded-lg transition-all duration-300;
+
+  &-primary {
+    @apply bg-purple-600 text-white hover:bg-purple-700;
+  }
+
+  &-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600;
+  }
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6;
+  @apply transition-all duration-300;
+  
+  &:hover {
+    @apply shadow-xl transform -translate-y-1;
+  }
+}
+
+// 导航栏样式
+.navbar {
+  @apply fixed top-0 left-0 right-0 z-50;
+  @apply bg-white dark:bg-gray-800;
+  @apply border-b border-gray-200 dark:border-gray-700;
+  @apply transition-all duration-300;
+} 

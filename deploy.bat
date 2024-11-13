@@ -15,11 +15,17 @@ if not exist .git (
     git init
 )
 
+:: 创建必要的目录和文件
+echo 创建必要的文件和目录...
+mkdir client\hooks 2>nul
+mkdir client\styles 2>nul
+
 :: 创建 .gitignore
 echo 创建 .gitignore 文件...
 (
 echo node_modules/
 echo .next/
+echo out/
 echo .env
 echo .env.local
 echo .DS_Store
@@ -36,45 +42,50 @@ echo 创建 netlify.toml 配置文件...
 echo [build]
 echo   base = "client"
 echo   command = "npm run build"
-echo   publish = ".next"
+echo   publish = "out"
 echo.
-echo [[redirects]]
-echo   from = "/api/*"
-echo   to = "/.netlify/functions/:splat"
-echo   status = 200
+echo [build.environment]
+echo   NEXT_PUBLIC_API_URL = "你的后端API地址"
 ) > netlify.toml
 
-:: 添加文件到 Git
-echo 添加文件到 Git...
-git add .
+:: 前端构建
+cd client
 
-:: 提交更改
-echo 创建提交...
-set /p commit_msg="输入提交信息 (默认: Initial commit): " || set commit_msg=Initial commit
-git commit -m "%commit_msg%"
+:: 删除重复的 profile 页面
+if exist pages\profile.js del pages\profile.js
+
+:: 安装依赖
+echo 安装依赖...
+call npm install
+
+:: 构建项目
+echo 构建项目...
+call npm run build
+
+:: 安装 Netlify CLI
+call npm install netlify-cli --save-dev
+
+:: 登录 Netlify
+echo 请先登录 Netlify...
+call npx netlify login
+
+:: 创建新站点
+echo 创建新的 Netlify 站点...
+call npx netlify sites:create --name ysatecx
+
+:: 部署到 Netlify
+echo 部署到 Netlify...
+call npx netlify deploy --prod --dir=out
+
+:: 提交到 Git
+cd ..
+git add .
+git commit -m "Initial commit"
 
 :: 添加远程仓库
 set /p repo_url="输入 GitHub 仓库 URL: "
 git remote add origin %repo_url%
+git push -u origin main
 
-:: 推送到 GitHub
-echo 推送到 GitHub...
-git push -u origin master
-
-:: 安装和配置 Netlify CLI
-echo 安装 Netlify CLI...
-cd client
-call npm install netlify-cli --save-dev
-call npx netlify login
-
-:: 创建新的 Netlify 站点
-echo 创建 Netlify 站点...
-call npx netlify init
-
-:: 部署到 Netlify
-echo 部署到 Netlify...
-call npx netlify deploy --prod
-
-cd ..
 echo === 部署完成! ===
 pause 
