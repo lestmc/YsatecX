@@ -4,8 +4,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/YsatecX' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/YsatecX/' : '',
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false };
+    return config;
+  }
 };
 
 module.exports = nextConfig; 
