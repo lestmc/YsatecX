@@ -34,9 +34,9 @@ echo server/database.sqlite
 echo 创建 netlify.toml 配置文件...
 (
 echo [build]
+echo   base = "client"
 echo   command = "npm run build"
-echo   publish = "client/.next"
-echo   functions = "netlify/functions"
+echo   publish = ".next"
 echo.
 echo [[redirects]]
 echo   from = "/api/*"
@@ -61,17 +61,20 @@ git remote add origin %repo_url%
 echo 推送到 GitHub...
 git push -u origin master
 
-:: 检查是否安装了 Netlify CLI
-where netlify >nul 2>nul
-if %errorlevel% neq 0 (
-    echo 安装 Netlify CLI...
-    npm install -g netlify-cli
-)
+:: 安装和配置 Netlify CLI
+echo 安装 Netlify CLI...
+cd client
+call npm install netlify-cli --save-dev
+call npx netlify login
+
+:: 创建新的 Netlify 站点
+echo 创建 Netlify 站点...
+call npx netlify init
 
 :: 部署到 Netlify
 echo 部署到 Netlify...
-cd client
-netlify deploy --prod
+call npx netlify deploy --prod
 
+cd ..
 echo === 部署完成! ===
 pause 
