@@ -2,6 +2,10 @@
   base = "client"
   command = "npm run build"
   publish = "out"
+  ignore = "git diff --quiet HEAD^ HEAD ./client/"
 
 [build.environment]
   NEXT_PUBLIC_API_URL = "ÄãµÄºó¶ËAPIµØÖ·"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
